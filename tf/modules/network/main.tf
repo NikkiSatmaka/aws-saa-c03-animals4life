@@ -1,3 +1,5 @@
+data "aws_availability_zones" "available" {}
+
 locals {
   # AZ Calculation
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -27,10 +29,6 @@ locals {
   app_subnet_names      = [for az in local.azs : "${var.name}-app-${substr(az, -1, 1)}"]
   web_subnet_names      = [for az in local.azs : "${var.name}-web-${substr(az, -1, 1)}"]
 
-}
-
-data "aws_availability_zones" "available" {
-  state = "available"
 }
 
 module "vpc" {
